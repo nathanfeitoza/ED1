@@ -18,11 +18,11 @@ public class Main {
         teste.adicionar("algo2");
         teste.adicionar("algo3");
         teste.adicionar("algo4");
-        //teste.adicionarNoInicio("algo5");
+        teste.adicionarNoInicio("algo5");
         //teste.adicionar(1,"teste");
         
-        //teste.remover(3);
-        teste.remover(2);
+        teste.remover(3);
+        teste.remover(0);
         //System.out.println("Contem: "+teste.contem("algo2"));
         /*for(int i = 0; i < teste.tamanho(); i++)
         {
