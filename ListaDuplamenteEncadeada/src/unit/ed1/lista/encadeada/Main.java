@@ -12,7 +12,7 @@ package unit.ed1.lista.encadeada;
 public class Main {
     public static void main(String[] args)
     {
-        ListaSimplesmenteEncadeada<String> teste = new ListaSimplesmenteEncadeada();
+        ListaDupla<String> teste = new ListaDupla();
         
         teste.adicionar("algo");
         teste.adicionar("algo2");

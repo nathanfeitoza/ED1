@@ -13,26 +13,28 @@ import unit.ed1.lista.ILista;
  *
  * @author 117139648
  */
-public class ListaSimplesmenteEncadeada<Tipo> implements ILista<Tipo> {
+public class ListaDupla<Tipo> implements ILista<Tipo> {
 
     private int contador;
-    private NoSimplesmenteEncadeado<Tipo> inicio, fim;
+    private NoDuplamenteEncadeado<Tipo> inicio, fim, anterior;
 
-    public ListaSimplesmenteEncadeada() {
+    public ListaDupla() {
         this.contador = 0;
         this.inicio = null;
+        this.anterior = null;
         this.fim = null;
     }
 
     @Override
     public void adicionar(Tipo elemento) {
-        NoSimplesmenteEncadeado<Tipo> novoNo = new NoSimplesmenteEncadeado<>(elemento);
+        NoDuplamenteEncadeado<Tipo> novoNo = new NoDuplamenteEncadeado<>(elemento);
 
         if (inicio == null) {
             inicio = novoNo;
             fim = novoNo;
         } else {
             this.fim.setProximo(novoNo);
+            novoNo.setAnterior(this.fim);
             this.fim = novoNo;
         }
         
@@ -52,8 +54,8 @@ public class ListaSimplesmenteEncadeada<Tipo> implements ILista<Tipo> {
         } 
         else 
         {
-            NoSimplesmenteEncadeado<Tipo> anterior = this.ObterElemento(posicao - 1);
-            NoSimplesmenteEncadeado<Tipo> nova = new NoSimplesmenteEncadeado<>(elemento,anterior.getProximo());
+            NoDuplamenteEncadeado<Tipo> anterior = this.ObterElemento(posicao - 1);
+            NoDuplamenteEncadeado<Tipo> nova = new NoDuplamenteEncadeado<>(elemento,anterior.getProximo(),anterior.getAnterior());
             anterior.setProximo(nova);
             this.contador++;
          }
@@ -61,20 +63,30 @@ public class ListaSimplesmenteEncadeada<Tipo> implements ILista<Tipo> {
     
     @Override
     public void adicionarNoInicio(Tipo elemento) {
-        NoSimplesmenteEncadeado<Tipo> nova = new NoSimplesmenteEncadeado<>(elemento, this.inicio);
-          this.inicio = nova;
+        if(this.contador == 0)
+        {
+            NoDuplamenteEncadeado<Tipo> nova = new NoDuplamenteEncadeado<>(elemento, this.inicio, null);
+            this.inicio = nova;
 
-          if(this.tamanho() == 0){
-            // caso especial da lista vazia
-            this.fim = this.inicio;
-          }
+            if(this.tamanho() == 0)
+            {
+                // caso especial da lista vazia
+                this.fim = this.inicio;
+            }
+        }
+        else
+        {
+            NoDuplamenteEncadeado<Tipo> nova = new NoDuplamenteEncadeado<>(elemento, this.inicio, this.anterior);
+            this.inicio.setAnterior(nova);
+            this.inicio = nova;
+        }
           this.contador++;
             
     }
     
     public int PosicaoContem(Tipo elemento)
     {
-       NoSimplesmenteEncadeado<Tipo> atual = this.inicio;
+       NoDuplamenteEncadeado<Tipo> atual = this.inicio;
        int pos = 0, pos_retorno = -1;
        while (atual != null) 
        {
@@ -102,14 +114,14 @@ public class ListaSimplesmenteEncadeada<Tipo> implements ILista<Tipo> {
       return posicao >= 0 && posicao < this.tamanho();
     }
     
-    private NoSimplesmenteEncadeado<Tipo> ObterElemento(int posicao) throws InvalidParameterException
+    private NoDuplamenteEncadeado<Tipo> ObterElemento(int posicao) throws InvalidParameterException
     {
         if(!this.posicaoValida(posicao))
         {
           throw new IllegalArgumentException("Posição não encontrada");
         }
 
-        NoSimplesmenteEncadeado<Tipo> atual = this.inicio;
+        NoDuplamenteEncadeado<Tipo> atual = this.inicio;
         for (int i = 0; i < posicao; i++) 
         {
           atual = atual.getProximo();
@@ -172,7 +184,7 @@ public class ListaSimplesmenteEncadeada<Tipo> implements ILista<Tipo> {
               {
                 int posicao_pen = (this.tamanho() - 2) > 0 ? this.tamanho() - 2 : 0;
                 
-                NoSimplesmenteEncadeado<Tipo> penultima = this.ObterElemento(posicao_pen);
+                NoDuplamenteEncadeado<Tipo> penultima = this.ObterElemento(posicao_pen);
                 penultima.setProximo(null);
                 this.fim = penultima;
 
@@ -181,9 +193,9 @@ public class ListaSimplesmenteEncadeada<Tipo> implements ILista<Tipo> {
           }
           else
           {
-                NoSimplesmenteEncadeado<Tipo> anterior = this.ObterElemento(posicao - 1);
-                NoSimplesmenteEncadeado<Tipo> atual = anterior.getProximo();
-                NoSimplesmenteEncadeado<Tipo> proxima = atual.getProximo();
+                NoDuplamenteEncadeado<Tipo> anterior = this.ObterElemento(posicao - 1);
+                NoDuplamenteEncadeado<Tipo> atual = anterior.getProximo();
+                NoDuplamenteEncadeado<Tipo> proxima = atual.getProximo();
 
                 anterior.setProximo(proxima);
                 
@@ -237,7 +249,7 @@ public class ListaSimplesmenteEncadeada<Tipo> implements ILista<Tipo> {
 
     private class IteradorListaEncadeada implements Iterator<Tipo> {
 
-        private NoSimplesmenteEncadeado<Tipo> proximo;
+        private NoDuplamenteEncadeado<Tipo> proximo;
 
         public IteradorListaEncadeada() {
             this.proximo = inicio;
