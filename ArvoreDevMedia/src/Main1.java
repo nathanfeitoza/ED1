@@ -1,4 +1,6 @@
 
+import ArvoreBinaria.ArvoreBinaria;
+import Model.Arvores;
 import java.util.Scanner;
 
 /*
@@ -11,17 +13,19 @@ import java.util.Scanner;
  *
  * @author 1171139648
  */
-public class Main {
+public class Main1 {
     public static void main(String[] args) {
-        TesteArvore arvore = new TesteArvore();
+        ArvoreBinaria arvore = new ArvoreBinaria();
     	Scanner entrada = new Scanner(System.in);
-    	ARVORE a = null;
+    	Arvores a = null;
         System.out.println("Entrada: ");
         int n = entrada.nextInt();
     	System.out.println("Montar arvore\n");
         for(int i = 0; i < n; i++){
         	a = arvore.inserir(a, entrada.nextInt());
         }
+        System.out.println(arvore.localizar(a, 2, false));
+        System.out.println( arvore.excluir(a, 2) );
         /*int num = entrada.nextInt();
         if( arvore.localizar(a, num, false)){
         	arvore.excluir(a, num);
